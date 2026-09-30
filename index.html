@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sad Darsana — Mahakarya Filsafat Hindu</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold-primary: #f39c12;
+            --gold-light: #ffeaa7;
+            --gold-gradient: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+            --gold-glow: 0 0 20px rgba(212, 175, 55, 0.4);
+            --bg-dark: #0a0813;
+            --bg-card: rgba(22, 18, 38, 0.75);
+            --border-gold: rgba(212, 175, 55, 0.3);
+            --text-light: #f4edd3;
+            --text-muted: #a39bb8;
+            --accent-purple: #2a1b40;
+            --correct-color: #2ecc71;
+            --wrong-color: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(67, 30, 110, 0.35) 0%, transparent 70%),
+                radial-gradient(circle at 0% 100%, rgba(184, 134, 11, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 50%, rgba(42, 27, 64, 0.4) 0%, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatOrb 20s infinite ease-in-out alternate;
+        }
+        .orb-1 { width: 350px; height: 350px; background: #d4af37; top: 10%; left: 5%; }
+        .orb-2 { width: 450px; height: 450px; background: #6c5ce7; bottom: 10%; right: 5%; animation-delay: -7s; }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(60px, 40px) scale(1.15); }
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 8, 19, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-gold);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: var(--gold-glow);
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            color: #d4af37;
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px #d4af37); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 10px #f39c12); }
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-gold);
+            color: var(--text-light);
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: var(--gold-gradient);
+            opacity: 0.2;
+            transition: left 0.4s;
+        }
+
+        .nav-btn:hover::before {
+            left: 0;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            border-color: #f39c12;
+            box-shadow: var(--gold-glow);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: var(--gold-gradient);
+            color: #0a0813;
+            font-weight: 800;
+        }
+
+        main {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-page {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .section-page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .hero-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--gold-light);
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        .hero-desc {
+            max-width: 750px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+        }
+
+        .cta-btn {
+            background: var(--gold-gradient);
+            color: #0a0813;
+            border: none;
+            padding: 15px 40px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+            transition: all 0.4s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.08) translateY(-3px);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.8);
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: var(--gold-gradient);
+        }
+
+        .concept-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), var(--gold-glow);
+        }
+
+        .concept-title {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2.3rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .darsana-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+        }
+
+        .darsana-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            backdrop-filter: blur(12px);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            cursor: pointer;
+        }
+
+        .darsana-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #f39c12;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 25px rgba(212, 175, 55, 0.3);
+        }
+
+        .darsana-number {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2.5rem;
+            color: rgba(212, 175, 55, 0.15);
+            font-weight: 900;
+        }
+
+        .darsana-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .darsana-founder {
+            font-size: 0.88rem;
+            color: var(--gold-primary);
+            font-weight: 600;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .darsana-summary {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--gold-light);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-family: 'Cinzel', serif;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(5, 4, 10, 0.85);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-box {
+            background: #141024;
+            border: 1px solid var(--gold-primary);
+            border-radius: 24px;
+            max-width: 750px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 35px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), var(--gold-glow);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-gold);
+            color: var(--gold-light);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: var(--gold-primary);
+            color: #0a0813;
+        }
+
+        .modal-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2rem;
+            color: var(--gold-light);
+            margin-bottom: 5px;
+        }
+
+        .modal-founder {
+            color: var(--gold-primary);
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .modal-body {
+            color: var(--text-light);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .modal-body h4 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            margin: 20px 0 10px;
+            font-size: 1.15rem;
+            border-bottom: 1px dashed var(--border-gold);
+            padding-bottom: 5px;
+        }
+
+        .modal-body ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            position: relative;
+        }
+
+        .quiz-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-gold);
+            padding-bottom: 15px;
+        }
+
+        .quiz-progress {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            font-size: 0.95rem;
+        }
+
+        .quiz-score-badge {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #fff;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            padding: 16px 20px;
+            border-radius: 12px;
+            color: var(--text-light);
+            text-align: left;
+            font-size: 0.98rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            line-height: 1.5;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background: rgba(212, 175, 55, 0.12);
+            border-color: var(--gold-primary);
+            transform: translateX(5px);
+        }
+
+        .option-btn.correct {
+            background: rgba(46, 204, 113, 0.2) !important;
+            border-color: var(--correct-color) !important;
+            color: #2ecc71 !important;
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            background: rgba(231, 76, 60, 0.2) !important;
+            border-color: var(--wrong-color) !important;
+            color: #e74c3c !important;
+        }
+
+        .explanation-box {
+            display: none;
+            background: rgba(20, 16, 36, 0.9);
+            border: 1px solid var(--border-gold);
+            border-left: 4px solid var(--gold-primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .explanation-title {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            font-size: 1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explanation-text {
+            font-size: 0.93rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .quiz-next-btn {
+            display: none;
+            margin-top: 25px;
+            width: 100%;
+            background: var(--gold-gradient);
+            color: #0a0813;
+            border: none;
+            padding: 14px;
+            font-family: 'Cinzel', serif;
+            font-weight: 800;
+            font-size: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--gold-glow);
+        }
+
+        .quiz-next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+        }
+
+        .quiz-result-box {
+            display: none;
+            text-align: center;
+            padding: 30px 10px;
+        }
+
+        .result-score {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 4rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 15px 0;
+        }
+
+        .group-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .member-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 18px;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-card:hover {
+            transform: translateY(-8px);
+            border-color: #f39c12;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), var(--gold-glow);
+        }
+
+        .avatar-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.5rem;
+            color: #0a0813;
+            font-weight: 900;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .member-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--gold-light);
+            margin-bottom: 5px;
+        }
+
+        .member-absent {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border-gold);
+            margin-top: 60px;
+            font-family: 'Cinzel', serif;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(10, 8, 19, 0.9);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-btn {
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles-canvas"></canvas>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <header>
+        <div class="logo">
+            <span class="logo-icon">🕉</span> SAD DARSANA
+        </div>
+        <nav>
+            <button class="nav-btn active" onclick="switchTab('beranda')">Beranda</button>
+            <button class="nav-btn" onclick="switchTab('materi')">6 Ajaran Darsana</button>
+            <button class="nav-btn" onclick="switchTab('kuis')">Kuis Interaktif</button>
+            <button class="nav-btn" onclick="switchTab('kelompok')">Kelompok 3</button>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- BERANDA -->
+        <section id="beranda" class="section-page active">
+            <div class="hero">
+                <h1 class="hero-title">Sad Darsana</h1>
+                <div class="hero-subtitle">Enam Epistemologi Filsafat Hindu Nusantara</div>
+                <p class="hero-desc">
+                    Selamat datang di media pembelajaran interaktif eksklusif filsafat Sad Darsana. Jelajahi keindahan logika, realitas metafisika, dualisme purusa-prakrti, meditasi yoga, hingga puncak ajaran Upanishad dengan tampilan kemewahan futuristik.
+                </p>
+                <button class="cta-btn" onclick="switchTab('materi')">
+                    <span>Eksplorasi Ajaran</span> ✨
+                </button>
+            </div>
+
+            <div class="overview-grid">
+                <div class="concept-card">
+                    <div class="concept-title"><span>📜</span> Pengertian Darsana</div>
+                    <div class="concept-desc">
+                        Kata <i>Darsana</i> berasal dari akar kata Sanskerta <b>"Drs"</b> yang berarti melihat atau memandang. Darsana merupakan pandangan filsafat untuk memahami kebenaran tertinggi (Rta & Satyam).
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title"><span>⚖️</span> Klasifikasi Filsafat</div>
+                    <div class="concept-desc">
+                        Filsafat Hindu terbagi menjadi dua: <b>Astika</b> (enam aliran Sad Darsana yang menerima otoritas kitab Veda) dan <b>Nastika</b> (aliran seperti Carvaka, Buddha, Jaina yang tidak menerima Veda).
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title"><span>🌟</span> Puncak Pengetahuan</div>
+                    <div class="concept-desc">
+                        Keenam sistem ini bukan merupakan pertentangan, melainkan jenjang pemahaman bertahap dari aspek logika fisik hingga realitas absolut Brahman.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MATERI 6 DARSANA -->
+        <section id="materi" class="section-page">
+            <div class="section-header">
+                <h2>Enam Aliran Astika</h2>
+                <p>Klik pada salah satu kartu untuk membuka penjelasan mendalam beserta teori utama</p>
+            </div>
+
+            <div class="darsana-grid">
+                <div class="darsana-card" onclick="openModal('nyaya')">
+                    <div class="darsana-number">01</div>
+                    <div class="darsana-name">Nyaya Darsana</div>
+                    <div class="darsana-founder">Pendiri: Maharsi Gautama (Aksapada)</div>
+                    <div class="darsana-summary">
+                        Fokus utama pada logika, epistemologi (ilmu pengetahuan), dan metode penalaran sistematis untuk mencapai kebebasan tertinggi.
+                    </div>
+                    <div class="badge-list">
+                        <span class="badge">4 Catur Pramana</span>
+                        <span class="badge">Logika Sistematis</span>
+                    </div>
+                </div>
+
+                <div class="darsana-card" onclick="openModal('vaisesika')">
+                    <div class="darsana-number">02</div>
+                    <div class="darsana-name">Vaisesika Darsana</div>
+                    <div class="darsana-founder">Pendiri: Maharsi Kanada (Uluka)</div>
+                    <div class="darsana-summary">
+                        Menguraikan sifat materi fisik alam semesta melalui teori atom (Paramanu) dan kategori realitas padartha.
+                    </div>
+                    <div class="badge-list">
+                        <span class="badge">Teori Atom (Paramanu)</span>
+                        <span class="badge">6 Padartha</span>
+                    </div>
+                </div>
+
+                <div class="darsana-card" onclick="openModal('sankhya')">
+                    <div class="darsana-number">03</div>
+                    <div class="darsana-name">Sankhya Darsana</div>
+                    <div class="darsana-founder">Pendiri: Maharsi Kapila</div>
+                    <div class="darsana-summary">
+                        Pandangan dualistis mengenai realitas alam semesta yang terdiri dari Purusa (Kesadaran Murni) dan Prakrti (Materi Asli).
+                    </div>
+                    <div class="badge-list">
+                        <span class="badge">Purusa & Prakrti</span>
+                        <span class="badge">Triguna</span>
+                    </div>
+                </div>
+
+                <div class="darsana-card" onclick="openModal('yoga')">
+                    <div class="darsana-number">04</div>
+                    <div class="darsana-name">Yoga Darsana</div>
+                    <div class="darsana-founder">Pendiri: Maharsi Patanjali</div>
+                    <div class="darsana-summary">
+                        Aplikasi praktis dari filsafat Sankhya melalui disiplin fisik, mental, dan meditasi menuju penyatuan jiwa (Samadhi).
+                    </div>
+                    <div class="badge-list">
+                        <span class="badge">Astanga Yoga</span>
+                        <span class="badge">Penyatuan Jiwa</span>
+                    </div>
+                </div>
+
+                <div class="darsana-card" onclick="openModal('mimamsa')">
+                    <div class="darsana-number">05</div>
+                    <div class="darsana-name">Mimamsa Darsana</div>
+                    <div class="darsana-founder">Pendiri: Maharsi Jaimini</div>
+                    <div class="darsana-summary">
+                        Penafsiran ritualistik ritual Veda, penekanan pada kewajiban hukum ritual (Dharma) dan keabsahan abadi suara Mantra.
+                    </div>
+                    <div class="badge-list">
+                        <span class="badge">Ritual Veda</span>
+                        <span class="badge">Karmakanda</span>
+                    </div>
+                </div>
+
+                <div class="darsana-card" onclick="openModal('vedanta')">
+                    <div class="darsana-number">06</div>
+                    <div class="darsana-name">Vedanta Darsana</div>
+                    <div class="darsana-founder">Pendiri: Maharsi Vyasa (Badarayana)</div>
+                    <div class="darsana-summary">
+                        Puncak pengetahuan ajaran Veda (Upanishad) yang membahas hubungan mendalam antara Atman dan Brahman.
+                    </div>
+                    <div class="badge-list">
+                        <span class="badge">Uttara Mimamsa</span>
+                        <span class="badge">Advaita & Dwaita</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KUIS INTERAKTIF -->
+        <section id="kuis" class="section-page">
+            <div class="section-header">
+                <h2>Uji Pemahaman Sistematis</h2>
+                <p>Jawab setiap pertanyaan untuk membuka analisis pembahasan dan akumulasi nilai akhir</p>
+            </div>
+
+            <div class="quiz-container">
+                <div id="quiz-active">
+                    <div class="quiz-header-bar">
+                        <div class="quiz-progress" id="quiz-progress">Pertanyaan 1 dari 5</div>
+                        <div class="quiz-score-badge" id="quiz-score-badge">Skor Sementara: 0</div>
+                    </div>
+
+                    <div class="question-text" id="question-text">Memuat pertanyaan...</div>
+
+                    <div class="options-grid" id="options-grid"></div>
+
+                    <div class="explanation-box" id="explanation-box">
+                        <div class="explanation-title"><span>💡</span> Pembahasan Lengkap:</div>
+                        <div class="explanation-text" id="explanation-text">...</div>
+                    </div>
+
+                    <button class="quiz-next-btn" id="next-btn" onclick="nextQuestion()">Pertanyaan Selanjutnya ➔</button>
+                </div>
+
+                <div class="quiz-result-box" id="quiz-result-box">
+                    <h2 style="font-family:'Cinzel Decorative', serif; color: var(--gold-light);">Hasil Evaluasi Kuis</h2>
+                    <div class="result-score" id="final-score">0</div>
+                    <p id="final-eval-text" style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px;">...</p>
+                    <button class="cta-btn" onclick="resetQuiz()">Ulangi Kuis 🔄</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ANGGOTA KELOMPOK 3 -->
+        <section id="kelompok" class="section-page">
+            <div class="section-header">
+                <h2>Kelompok 3</h2>
+                <p>Tim Penyusun & Pengembang Media Pembelajaran Interaktif Sad Darsana</p>
+            </div>
+
+            <div class="group-grid">
+                <div class="member-card">
+                    <div class="avatar-circle">10</div>
+                    <div class="member-name">I Dewa Ayu Hanny Pradnya Nitaswari</div>
+                    <div class="member-absent">No. Absen: 10</div>
+                </div>
+
+                <div class="member-card">
+                    <div class="avatar-circle">26</div>
+                    <div class="member-name">Kadek Anindya Citra Kirana</div>
+                    <div class="member-absent">No. Absen: 26</div>
+                </div>
+
+                <div class="member-card">
+                    <div class="avatar-circle">01</div>
+                    <div class="member-name">Anak Agung Sri Ambarawati</div>
+                    <div class="member-absent">No. Absen: 01</div>
+                </div>
+
+                <div class="member-card">
+                    <div class="avatar-circle">42</div>
+                    <div class="member-name">Putu Octhaviyanti</div>
+                    <div class="member-absent">No. Absen: 42</div>
+                </div>
+
+                <div class="member-card">
+                    <div class="avatar-circle">39</div>
+                    <div class="member-name">Ni Putu Wulan Kusumayanti</div>
+                    <div class="member-absent">No. Absen: 39</div>
+                </div>
+
+                <div class="member-card">
+                    <div class="avatar-circle">41</div>
+                    <div class="member-name">Putu Citra Rasmini</div>
+                    <div class="member-absent">No. Absen: 41</div>
+                </div>
+
+                <div class="member-card">
+                    <div class="avatar-circle">35</div>
+                    <div class="member-name">Ni Made Putri Swandini</div>
+                    <div class="member-absent">No. Absen: 35</div>
+                </div>
+
+                <div class="member-card">
+                    <div class="avatar-circle">25</div>
+                    <div class="member-name">I Putu Galang Aditya</div>
+                    <div class="member-absent">No. Absen: 25</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h3 class="modal-title" id="m-title">Judul Darsana</h3>
+            <div class="modal-founder" id="m-founder">Pendiri</div>
+            <div class="modal-body" id="m-body"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Om Swastyastu · Media Pembelajaran Interaktif Sad Darsana · Kelompok 3 © 2026</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * 0.4 - 0.2;
+                this.opacity = Math.random() * 0.7 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 70; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.section-page').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            const targetSection = document.getElementById(tabId);
+            if(targetSection) targetSection.classList.add('active');
+
+            const activeNav = Array.from(document.querySelectorAll('.nav-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
+            if(activeNav) activeNav.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        const darsanaData = {
+            nyaya: {
+                title: "Nyaya Darsana",
+                founder: "Pendiri: Maharsi Gautama (Aksapada)",
+                content: `
+                    <p><b>Nyaya Darsana</b> adalah sistem filsafat Hindu yang sangat menekankan pada logika, epistemologi (ilmu pengetahuan), dan metode penalaran ilmiah untuk mencapai kebenaran mutlak.</p>
+                    <h4>Empat Metode Pengetahuan (Catur Pramana):</h4>
+                    <ul>
+                        <li><b>Pratyaksa Pramana:</b> Pengamatan langsung melalui panca indra.</li>
+                        <li><b>Anumana Pramana:</b> Pengetahuan melalui penyimpulan/logika (inferensi).</li>
+                        <li><b>Upamana Pramana:</b> Pengetahuan melalui perbandingan atau analogi.</li>
+                        <li><b>Sabda Pramana:</b> Pengetahuan dari kesaksian para ahli atau kitab suci Veda.</li>
+                    </ul>
+                    <h4>Tujuan Utama:</h4>
+                    <p>Mencapai <i>Moksha</i> dengan membebaskan jiwa dari ketidakpengetahuan (Avidya) melalui pemahaman logika dan realitas sejati.</p>
+                `
+            },
+            vaisesika: {
+                title: "Vaisesika Darsana",
+                founder: "Pendiri: Maharsi Kanada (Uluka)",
+                content: `
+                    <p><b>Vaisesika Darsana</b> merupakan aliran yang melengkapi Nyaya, dengan keunggulan analisis ilmiah pada struktur fisik alam semesta melalui konsep atomik.</p>
+                    <h4>Konsep Utama Paramanu (Atom):</h4>
+                    <p>Segala sesuatu di alam fisik terbentuk dari partikel atom terkecil yang tak terbagi yang disebut <i>Paramanu</i>. Gabungan paramanu membentuk materi yang kita lihat sehari-hari.</p>
+                    <h4>Enam Kategori Realitas (Padartha):</h4>
+                    <ul>
+                        <li><b>Dravya:</b> Substansi (9 unsur dasar termasuk tanah, air, api, udara, ether, waktu, ruang, jiwa, pikiran).</li>
+                        <li><b>Guna:</b> Kualitas atau sifat materi.</li>
+                        <li><b>Karma:</b> Aktivitas atau gerakan.</li>
+                        <li><b>Samanya:</b> Sifat umum/universal.</li>
+                        <li><b>Visesa:</b> Keunikan individu/kekhasan.</li>
+                        <li><b>Samavaya:</b> Keterkaitan inherent yang tak terpisahkan.</li>
+                    </ul>
+                `
+            },
+            sankhya: {
+                title: "Sankhya Darsana",
+                founder: "Pendiri: Maharsi Kapila",
+                content: `
+                    <p><b>Sankhya Darsana</b> adalah filsafat dualistis tertua yang membagi seluruh realitas menjadi dua prinsip abadi: Purusa dan Prakrti.</p>
+                    <h4>Dua Unsur Utama:</h4>
+                    <ul>
+                        <li><b>Purusa:</b> Kesadaran murni, tidak berubah, tanpa wujud, dan abadi.</li>
+                        <li><b>Prakrti:</b> Unsur materi asal, dinamis, pencipta dunia fisik melalui interaksi Triguna.</li>
+                    </ul>
+                    <h4>Konsep Triguna:</h4>
+                    <ul>
+                        <li><b>Sattva:</b> Sifat kemurnian, cahaya, keharmonisan.</li>
+                        <li><b>Rajas:</b> Sifat nafsu, aktivitas, dinamika.</li>
+                        <li><b>Tamas:</b> Sifat kegelapan, kebodohan, inersia.</li>
+                    </ul>
+                `
+            },
+            yoga: {
+                title: "Yoga Darsana",
+                founder: "Pendiri: Maharsi Patanjali",
+                content: `
+                    <p><b>Yoga Darsana</b> memberikan praktikal sistematis dari filsafat Sankhya. Fokus utamanya adalah pengendalian gejolak pikiran (<i>Citta Vrtti Nirodha</i>).</p>
+                    <h4>Delapan Tahapan Yoga (Astanga Yoga):</h4>
+                    <ul>
+                        <li><b>Yama:</b> Pengendalian diri secara moral/etika luar.</li>
+                        <li><b>Niyama:</b> Penataan diri dan kebiasaan positif internal.</li>
+                        <li><b>Asana:</b> Sikap tubuh/postur untuk ketenangan.</li>
+                        <li><b>Pranayama:</b> Pengendalian napas dan energi vital.</li>
+                        <li><b>Pratyahara:</b> Penarikan panca indra dari objek luar.</li>
+                        <li><b>Dharana:</b> Konsentrasi pikiran pada satu titik.</li>
+                        <li><b>Dhyana:</b> Meditasi berkelanjutan tanpa gangguan.</li>
+                        <li><b>Samadhi:</b> Keadaan kesadaran tertinggi dan penyatuan jiwa.</li>
+                    </ul>
+                `
+            },
+            mimamsa: {
+                title: "Mimamsa Darsana",
+                founder: "Pendiri: Maharsi Jaimini",
+                content: `
+                    <p><b>Mimamsa Darsana</b> (sering disebut Purva Mimamsa) memfokuskan kajian pada bagian awal Veda yaitu ritual, pengorbanan (Yajna), dan kewajiban Dharma.</p>
+                    <h4>Prinsip Kunci:</h4>
+                    <ul>
+                        <li><b>Otoritas Mutlak Veda:</b> Kitab Veda bersifat <i>Apauruseya</i> (bukan buatan manusia) dan abadi.</li>
+                        <li><b>Karmakanda:</b> Penekanan pada pelaksanaan ritual Hindu yang tepat untuk menjaga keharmonisan alam semesta.</li>
+                        <li><b>Kekuatan Sabda:</b> Suara dan mantra Veda memiliki getaran spiritual abadi.</li>
+                    </ul>
+                `
+            },
+            vedanta: {
+                title: "Vedanta Darsana",
+                founder: "Pendiri: Maharsi Vyasa (Badarayana)",
+                content: `
+                    <p><b>Vedanta Darsana</b> (Uttara Mimamsa) merupakan puncak akhir dari ajaran Veda berdasarkan teks Upanishad dan Brahma Sutra.</p>
+                    <h4>Tiga Mazhab Utama Vedanta:</h4>
+                    <ul>
+                        <li><b>Advaita Vedanta (Adi Shankara):</b> Non-dualisme mutlak. Atman (jiwa) dan Brahman (Tuhan) adalah satu kesatuan yang sama tanpa perbedaan.</li>
+                        <li><b>Vishishtadvaita (Ramanuja):</b> Non-dualisme terkualifikasi. Atman adalah bagian terpisah namun bersatu dalam keagungan Brahman.</li>
+                        <li><b>Dvaita (Madhvacharya):</b> Dualisme mutlak. Atman dan Brahman adalah dua realitas yang berbeda secara kekal.</li>
+                    </ul>
+                `
+            }
+        };
+
+        function openModal(key) {
+            const data = darsanaData[key];
+            if(!data) return;
+            document.getElementById('m-title').innerText = data.title;
+            document.getElementById('m-founder').innerText = data.founder;
+            document.getElementById('m-body').innerHTML = data.content;
+
+            const overlay = document.getElementById('modal-overlay');
+            overlay.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+
+        const quizQuestions = [
+            {
+                q: "Siapakah Maharsi yang mendirikan aliran Nyaya Darsana yang terkenal dengan analisis logikanya?",
+                options: ["Maharsi Kanada", "Maharsi Gautama", "Maharsi Kapila", "Maharsi Patanjali"],
+                correct: 1,
+                exp: "Nyaya Darsana didirikan oleh Maharsi Gautama (Aksapada) yang memfokuskan ajaran pada logika dan catur pramana."
+            },
+            {
+                q: "Konsep atom terkecil yang tak terbagi dalam filsafat Vaisesika dikenal dengan istilah...",
+                options: ["Purusa", "Triguna", "Paramanu", "Samadhi"],
+                correct: 2,
+                exp: "Paramanu adalah sebutan untuk atom dasar dalam filsafat Vaisesika karya Maharsi Kanada."
+            },
+            {
+                q: "Filsafat Sankhya membagi realitas semesta menjadi dua unsur utama, yaitu...",
+                options: ["Purusa dan Prakrti", "Atman dan Maya", "Yama dan Niyama", "Sattva dan Rajas"],
+                correct: 0,
+                exp: "Sankhya bersifat dualis: Purusa melambangkan Kesadaran Murni, sedangkan Prakrti melambangkan Materi Asal."
+            },
+            {
+                q: "Tahapan ke-8 atau puncak tertinggi dalam ajaran Astanga Yoga Patanjali adalah...",
+                options: ["Asana", "Pranayama", "Dhyana", "Samadhi"],
+                correct: 3,
+                exp: "Samadhi adalah tahapan ke-8 di mana terjadi penyatuan penuh antara kesadaran diri dengan Yang Maha Kuasa."
+            },
+            {
+                q: "Tokoh utama yang mengajarkan pandangan Advaita Vedanta (Non-dualisme mutlak) bahwa Atman dan Brahman adalah tunggal yaitu...",
+                options: ["Adi Shankara", "Ramanuja", "Madhvacharya", "Maharsi Jaimini"],
+                correct: 0,
+                exp: "Adi Shankara adalah tokoh utama Advaita Vedanta yang menyatakan 'Aham Brahma Asmi' (Saya adalah Brahman)."
+            }
+        ];
+
+        let currentQIndex = 0;
+        let userScore = 0;
+
+        function loadQuestion() {
+            const q = quizQuestions[currentQIndex];
+            document.getElementById('quiz-progress').innerText = `Pertanyaan ${currentQIndex + 1} dari ${quizQuestions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+
+            const optionsGrid = document.getElementById('options-grid');
+            optionsGrid.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<b>${String.fromCharCode(65 + idx)}.</b> ${opt}`;
+                btn.onclick = () => selectOption(idx);
+                optionsGrid.appendChild(btn);
+            });
+
+            document.getElementById('explanation-box').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'none';
+        }
+
+        function selectOption(selectedIdx) {
+            const q = quizQuestions[currentQIndex];
+            const buttons = document.querySelectorAll('.option-btn');
+
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if(idx === q.correct) {
+                    btn.classList.add('correct');
+                }
+                if(idx === selectedIdx && selectedIdx !== q.correct) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            if(selectedIdx === q.correct) {
+                userScore += 20;
+                document.getElementById('quiz-score-badge').innerText = `Skor Sementara: ${userScore}`;
+            }
+
+            document.getElementById('explanation-text').innerText = q.exp;
+            document.getElementById('explanation-box').style.display = 'block';
+            document.getElementById('next-btn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQIndex++;
+            if(currentQIndex < quizQuestions.length) {
+                loadQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-active').style.display = 'none';
+            const resultBox = document.getElementById('quiz-result-box');
+            resultBox.style.display = 'block';
+            document.getElementById('final-score').innerText = userScore;
+
+            let evalMsg = "";
+            if(userScore === 100) evalMsg = "Sangat Sempurna! Kamu telah menguasai seluruh fondasi filsafat Sad Darsana dengan sangat baik.";
+            else if(userScore >= 80) evalMsg = "Luar biasa! Pemahaman kamu tentang Sad Darsana sudah sangat matang.";
+            else evalMsg = "Tetap semangat! Pelajari kembali poin-poin materi 6 Darsana untuk meningkatkan pemahamanmu.";
+
+            document.getElementById('final-eval-text').innerText = evalMsg;
+        }
+
+        function resetQuiz() {
+            currentQIndex = 0;
+            userScore = 0;
+            document.getElementById('quiz-score-badge').innerText = `Skor Sementara: 0`;
+            document.getElementById('quiz-result-box').style.display = 'none';
+            document.getElementById('quiz-active').style.display = 'block';
+            loadQuestion();
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
